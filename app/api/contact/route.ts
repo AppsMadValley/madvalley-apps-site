@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
 const TO_EMAIL = "support@madvalley.com";
-const FROM_EMAIL = "contact@madvalley.com";
+const FROM_EMAIL = "support@madvalley.com";
 
 // Reject submissions faster than 3 seconds (bots) or older than 1 hour (stale)
 const MIN_MS = 3_000;

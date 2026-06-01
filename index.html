@@ -288,12 +288,19 @@
     }
     .app-card-top { height: 3px; }
     .app-card-body { padding: 24px; }
+    .app-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
     .app-card-title {
       font-family: 'Syne', sans-serif;
       font-size: 18px;
       font-weight: 600;
       color: var(--color-text-dark);
-      margin: 10px 0 6px;
+      margin: 0;
     }
     .app-card-tagline {
       font-size: 14px;
@@ -558,8 +565,7 @@
   <section class="section bg-white" id="apps">
     <div class="container">
       <div class="section-header fade-in">
-        <h2 class="section-heading">[Placeholder headline]</h2>
-        <p class="section-subhead">[Placeholder subhead — 1 sentence]</p>
+        <h2 class="section-heading">Shopify Apps by MAD Valley Productions</h2>
       </div>
       <div class="apps-grid">
 
@@ -567,8 +573,10 @@
         <div class="app-card fade-in">
           <div class="app-card-top" style="background: #2b3fd4;"></div>
           <div class="app-card-body">
-            <span class="badge" style="background: #e6f1fb; color: #0c447c;">&#9679; Beta</span>
-            <h3 class="app-card-title">PopUp: Sell by Weight</h3>
+            <div class="app-card-header">
+              <h3 class="app-card-title">PopUp: Sell by Weight</h3>
+              <span class="badge" style="background: #e6f1fb; color: #0c447c;">&#9679; Beta</span>
+            </div>
             <p class="app-card-tagline">Shopify POS doesn't support selling by weight. PopUp fixes that — and keeps everything in one place, no Square required.</p>
             <ul class="feature-list">
               <li><span class="feature-arrow" style="color: #2b3fd4;">&#8594;</span> In person weight-based and by-item selling</li>
@@ -586,18 +594,19 @@
         <div class="app-card fade-in">
           <div class="app-card-top" style="background: #85b7eb;"></div>
           <div class="app-card-body">
-            <span class="badge" style="background: #e6f1fb; color: #185fa5;">In Development</span>
-            <h3 class="app-card-title">Launch Day</h3>
-            <p class="app-card-tagline">Seasonal storefront control for flower farmers — page locks, buy button hiding, scheduled drops, Google suppression.</p>
+            <div class="app-card-header">
+              <h3 class="app-card-title">Launch Day</h3>
+              <span class="badge" style="background: #f0f0f0; color: #1a1a1a;">In Development</span>
+            </div>
+            <p class="app-card-tagline">The storefront lock control for your releases.</p>
             <ul class="feature-list">
-              <li><span class="feature-arrow" style="color: #85b7eb;">&#8594;</span> Lock pages until a scheduled date/time</li>
-              <li><span class="feature-arrow" style="color: #85b7eb;">&#8594;</span> Hide Add to Cart without unpublishing</li>
-              <li><span class="feature-arrow" style="color: #85b7eb;">&#8594;</span> Suppress locked products from Google</li>
-              <li><span class="feature-arrow" style="color: #85b7eb;">&#8594;</span> Restrict by customer tag (CSA, wholesale)</li>
-              <li><span class="feature-arrow" style="color: #85b7eb;">&#8594;</span> Auto-lock and unlock on a schedule</li>
+              <li><span class="feature-arrow" style="color: #85b7eb;">&#8594;</span> Lock the store, collections, pages and products until your exact drop date and time</li>
+              <li><span class="feature-arrow" style="color: #85b7eb;">&#8594;</span> Hide Add to Cart without unpublishing your products</li>
+              <li><span class="feature-arrow" style="color: #85b7eb;">&#8594;</span> Restrict access to specific customers — VIPs, newsletter subscribers, wholesale buyers</li>
+              <li><span class="feature-arrow" style="color: #85b7eb;">&#8594;</span> Auto-unlock and re-lock on a schedule — set it and forget it</li>
             </ul>
             <hr class="app-divider">
-            <button id="get-notified-btn" class="btn-outline">Get Notified</button>
+            <button id="get-notified-btn" class="btn-outline">Stay in touch</button>
             <div id="launch-day-waitlist" class="hidden" style="margin-top: 16px; background: #eaf2f8; border: 1px solid #d1dde8; border-radius: 8px; padding: 16px;">
               <p style="font-size: 13px; font-weight: 500; margin-bottom: 12px;">Notify me when Launch Day is ready</p>
               <!-- TALLY EMBED: launch-day-waitlist -->

@@ -170,6 +170,8 @@
       transition: color 0.15s;
     }
     .nav-links a:hover { color: var(--color-cobalt); }
+    .nav-links .btn-primary,
+    .nav-links .btn-primary:hover { color: #ffffff; }
 
     .nav-hamburger {
       display: none;
@@ -209,9 +211,14 @@
     /* Hero */
     .hero-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
+      grid-template-columns: auto 1fr 1fr;
+      gap: 48px;
       align-items: start;
+    }
+    .hero-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     .hero-heading {
       font-family: 'Syne', sans-serif;
@@ -451,7 +458,8 @@
     /* Responsive */
     @media (max-width: 767px) {
       .section { padding: 56px 0; }
-      .hero-grid { grid-template-columns: 1fr; }
+      .hero-grid { grid-template-columns: 1fr; gap: 24px; }
+      .hero-logo { align-items: flex-start; }
       .hero-heading { font-size: 28px; }
       .section-heading { font-size: 22px; }
       .apps-grid { grid-template-columns: 1fr; }
@@ -499,8 +507,10 @@
   <section class="section bg-page">
     <div class="container">
       <div class="hero-grid">
+        <div class="hero-logo fade-in">
+          <img src="/public/MADLogo.png" alt="Mad Valley" style="height: 140px;">
+        </div>
         <div class="fade-in">
-          <img src="/public/MADLogo.png" alt="Mad Valley" style="height: 96px; margin-bottom: 24px;">
           <p class="section-label">// Mad Valley Apps</p>
           <h1 class="hero-heading">Built by a vendor,<br>for vendors.</h1>
           <p class="hero-body">

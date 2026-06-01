@@ -146,7 +146,17 @@
       justify-content: space-between;
       height: 72px;
     }
-    .nav-logo { display: flex; align-items: center; }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--color-text-dark);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .nav-logo:hover { color: var(--color-cobalt); }
     .nav-links {
       display: flex;
       align-items: center;
@@ -463,9 +473,7 @@
   <nav id="main-nav">
     <div class="container">
       <div class="nav-inner">
-        <a class="nav-logo" href="/">
-          <img src="/public/MADLogo.png" alt="Mad Valley" height="52">
-        </a>
+        <a class="nav-logo" href="/">Mad Valley</a>
         <ul class="nav-links">
           <li><a href="#apps">Apps</a></li>
           <li><a href="#docs">Docs</a></li>
@@ -492,6 +500,7 @@
     <div class="container">
       <div class="hero-grid">
         <div class="fade-in">
+          <img src="/public/MADLogo.png" alt="Mad Valley" style="height: 96px; margin-bottom: 24px;">
           <p class="section-label">// Mad Valley Apps</p>
           <h1 class="hero-heading">Built by a vendor,<br>for vendors.</h1>
           <p class="hero-body">

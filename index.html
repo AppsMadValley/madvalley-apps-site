@@ -397,7 +397,7 @@
     /* Support */
     .support-cards {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 20px;
       margin-bottom: 24px;
     }
@@ -583,23 +583,22 @@
           <div class="app-card-body">
             <div class="app-card-header">
               <h3 class="app-card-title">Launch Day</h3>
-              <span class="badge" style="background: #f0f0f0; color: #1a1a1a;">In Development</span>
+              <span class="badge" style="background: var(--color-cobalt-light); color: var(--color-cobalt-dark);">In Testing</span>
             </div>
             <p class="app-card-tagline">The storefront lock control for your releases.</p>
             <ul class="feature-list">
-              <li><span class="feature-arrow" style="color: #85b7eb;">&#8594;</span> Lock the store, collections, pages and products until your exact drop date and time</li>
-              <li><span class="feature-arrow" style="color: #85b7eb;">&#8594;</span> Hide Add to Cart without unpublishing your products</li>
-              <li><span class="feature-arrow" style="color: #85b7eb;">&#8594;</span> Restrict access to specific customers — VIPs, newsletter subscribers, wholesale buyers</li>
-              <li><span class="feature-arrow" style="color: #85b7eb;">&#8594;</span> Auto-unlock and re-lock on a schedule — set it and forget it</li>
+              <li><span class="feature-arrow" style="color: #85b7eb;">&#8594;</span> <span><strong>Full Site Lock</strong> — lock your entire storefront until you're ready</span></li>
+              <li><span class="feature-arrow" style="color: #85b7eb;">&#8594;</span> <span><strong>Collection Lock</strong> — locks stay smart: products added to a locked collection later are automatically locked too</span></li>
+              <li><span class="feature-arrow" style="color: #85b7eb;">&#8594;</span> <span><strong>Product Lock</strong> — select any number of individual products to lock</span></li>
+              <li><span class="feature-arrow" style="color: #85b7eb;">&#8594;</span> <span><strong>Hide Buy Button</strong> (our most requested feature) — hide the buy/shop button without unpublishing, at the site, collection, or product level</span></li>
+              <li><span class="feature-arrow" style="color: #85b7eb;">&#8594;</span> <span><strong>Password access</strong> on every lock — give VIPs or newsletter subscribers early access before a drop, or keep a wholesale-only collection locked to everyone but your wholesale buyers</span></li>
+              <li><span class="feature-arrow" style="color: #85b7eb;">&#8594;</span> <span><strong>Scheduled auto-unlock/re-lock</strong> — set it and forget it, drops open and close automatically</span></li>
             </ul>
-            <p style="font-size: 17px; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 16px;">Is this an app you need? Please take a few minutes to provide feedback in a survey.</p>
+            <p style="font-size: 14px; color: var(--color-text-muted); line-height: 1.5; margin-bottom: 16px;"><strong>Planned for future releases:</strong> page locking.</p>
+            <p style="font-size: 17px; font-weight: 600; color: var(--color-text-dark); line-height: 1.6; margin-bottom: 16px;">Feature complete and in testing.</p>
             <hr class="app-divider">
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-              <a href="https://tally.so/r/RGVLd4" target="_blank" class="btn-primary">Take Survey</a>
-              <button id="get-notified-btn" class="btn-outline">Stay in touch</button>
-            </div>
-            <div id="launch-day-waitlist" class="hidden" style="margin-top: 16px;">
-              <iframe width="100%" height="480px" src="https://forms.office.com/Pages/ResponsePage.aspx?id=gIbZxOSKF0yqSn7tRlnpoZIKS8iqjsVJkA-gIvw5dBxUN1YxMVkxMlI1VUFXVThVNDNGUldTNllFQy4u&embed=true" frameborder="0" marginwidth="0" marginheight="0" style="border: none; max-width: 100%;" allowfullscreen webkitallowfullscreen mozallowfullscreen msallowfullscreen></iframe>
+              <a href="https://tally.so/forms/RGVLd4" target="_blank" class="btn-primary">Join the Beta</a>
             </div>
           </div>
         </div>
@@ -646,9 +645,9 @@
           <p class="roadmap-card-desc">Available now on the Shopify App Store.</p>
         </div>
         <div class="roadmap-card fade-in">
-          <span class="badge" style="background: #f1efe8; color: #5f5e5a;">&#9671; In Development</span>
+          <span class="badge" style="background: var(--color-cobalt-light); color: var(--color-cobalt-dark);">&#9671; In Testing</span>
           <h3 class="roadmap-card-title">Launch Day</h3>
-          <p class="roadmap-card-desc">Seasonal store locking, scheduled drops, Google suppression.</p>
+          <p class="roadmap-card-desc">Feature complete. In testing and preparing for Shopify App Review.</p>
         </div>
       </div>
     </div>
@@ -676,6 +675,12 @@
           <p class="support-card-body">Reach us directly. We respond within 1 business day, usually faster. Already using PopUp? Use the Support form inside the app.</p>
           <a href="mailto:support@madvalley.com" class="support-link">support@madvalley.com &#8594;</a>
         </div>
+        <div class="support-card fade-in">
+          <div class="support-icon"><i class="ti ti-bell"></i></div>
+          <h3 class="support-card-title">Stay in touch</h3>
+          <p class="support-card-body">Want updates on new apps and features, including Launch Day's beta? Sign up to hear from us.</p>
+          <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=gIbZxOSKF0yqSn7tRlnpoZIKS8iqjsVJkA-gIvw5dBxUN1YxMVkxMlI1VUFXVThVNDNGUldTNllFQy4u" target="_blank" class="support-link">Sign up &#8594;</a>
+        </div>
       </div>
       <div class="form-card fade-in">
         <!-- TALLY EMBED: support-contact -->
@@ -700,11 +705,6 @@
     // Nav shadow on scroll
     window.addEventListener('scroll', () => {
       document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 10);
-    });
-
-    // Launch Day waitlist toggle
-    document.getElementById('get-notified-btn').addEventListener('click', () => {
-      document.getElementById('launch-day-waitlist').classList.toggle('hidden');
     });
 
     // Mobile hamburger

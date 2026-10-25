@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Launch Day - Store Locks - Application</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --color-page-bg: #eaf2f8;
+      --color-white: #ffffff;
+      --color-cobalt: #2b3fd4;
+      --color-text-dark: #1a1a1a;
+      --color-text-body: #444444;
+      --color-text-muted: #6b7280;
+      --color-border: #d1dde8;
+      --color-error: #b42318;
+      --color-success-bg: #ecf8f0;
+      --color-success-border: #9fd8b3;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; font-size: 18px; color: var(--color-text-body); background: var(--color-page-bg); line-height: 1.6; }
+    main { max-width: 600px; margin: 0 auto; padding: 40px 16px 64px; }
+    .eyebrow { font-size: 15px; font-weight: 500; color: var(--color-cobalt); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px; }
+    h1 { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 700; color: var(--color-text-dark); line-height: 1.2; margin-bottom: 12px; }
+    .intro { margin-bottom: 16px; }
+    .intro-end { margin-bottom: 24px; }
+    .card { background: var(--color-white); border: 1px solid var(--color-border); border-radius: 12px; padding: 24px; }
+    .field { margin-bottom: 20px; }
+    label { display: block; font-size: 16px; font-weight: 500; color: var(--color-text-dark); margin-bottom: 4px; }
+    .hint { font-size: 15px; color: var(--color-text-muted); margin-bottom: 8px; }
+    .req { color: var(--color-error); }
+    .suffix-wrap { display: flex; align-items: center; gap: 8px; }
+    .suffix { font-size: 16px; color: var(--color-text-muted); white-space: nowrap; }
+    .hint code { font-size: 14px; background: #f1f5f9; padding: 1px 4px; border-radius: 4px; overflow-wrap: anywhere; }
+    input[type="text"], input[type="email"] { width: 100%; font: inherit; font-size: 16px; padding: 10px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-white); color: var(--color-text-dark); }
+    input:focus-visible { outline: 2px solid var(--color-cobalt); outline-offset: 1px; }
+    input[aria-invalid="true"] { border-color: var(--color-error); }
+    .check { display: flex; gap: 12px; align-items: flex-start; }
+    .check input { width: 20px; height: 20px; margin-top: 4px; flex-shrink: 0; accent-color: var(--color-cobalt); }
+    .check label { font-weight: 400; margin: 0; }
+    input[readonly] { background: #f1f5f9; color: var(--color-text-muted); }
+    .field-error { color: var(--color-error); font-size: 15px; margin-top: 6px; }
+    .form-error { color: var(--color-error); font-size: 16px; margin-bottom: 16px; }
+    .btn-primary { font: inherit; font-size: 16px; font-weight: 500; background: var(--color-cobalt); color: #fff; border: 0; border-radius: 8px; padding: 12px 24px; cursor: pointer; }
+    .btn-primary:hover { background: #2336b8; }
+    .btn-primary:disabled { opacity: 0.6; cursor: default; }
+    .btn-primary:focus-visible { outline: 2px solid var(--color-text-dark); outline-offset: 2px; }
+    .success { background: var(--color-success-bg); border: 1px solid var(--color-success-border); border-radius: 12px; padding: 24px; }
+    .success h2 { font-family: 'Syne', sans-serif; font-size: 22px; color: var(--color-text-dark); margin-bottom: 8px; }
+    .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+    [hidden] { display: none !important; }
+    @media (max-width: 480px) { h1 { font-size: 24px; } .card { padding: 20px 16px; } .btn-primary { width: 100%; } }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">Launch Day - Store Locks</p>
+    <h1>Application for free access for Dahlia Growers</h1>
+    <p class="intro">This is my gift to fellow dahlia growers: free access to Launch Day, the app that helps you lock your store, products, and pages. It can also hide the buy/shop buttons on product pages so buyers can preview your inventory before your store opens. This way, you can add inventory without having to close your store ahead of time. <a href="https://launchday.apps.madvalley.com/docs/locking-your-store/customizing-the-lock-screen#hide-buy/shop-buttons" target="_blank" rel="noopener">Learn more</a>.</p>
+    <p class="intro">In exchange, I ask you to subscribe to my Sugar Moon Gardens newsletter. You'll get early access to sales, too. If you find the app useful, I'd much appreciate a review on the Shopify App Store. It will help me get paying customers to cover the cost of running the app.</p>
+    <p class="intro intro-end">Apply for free access to the Launch Day application for Shopify. Tell us which store you'd like to connect and where to reach you.</p>
+
+    <div id="success" class="success" role="status" tabindex="-1" hidden>
+      <h2>Thanks, you're on the list</h2>
+      <p>We've received your application and will review it shortly. We'll email you once it's been looked at.</p>
+    </div>
+
+    <form id="form" class="card" method="post" action="/api/partner-application" novalidate>
+      <div id="form-error" class="form-error" role="alert" hidden></div>
+
+      <div class="field">
+        <label for="shopDomain">Shopify store handle <span class="req" aria-hidden="true">*</span></label>
+        <p class="hint" id="shopDomain-hint">
+          To find it, open your Shopify admin and look at the URL. Example: <code>admin.shopify.com/store/<strong>my-flower-farm</strong></code>. The last part is the handle. "my-flower-farm", enter that below:
+        </p>
+        <div class="suffix-wrap">
+          <input id="shopDomain" name="shopDomain" type="text" inputmode="url" autocomplete="off" autocapitalize="none" spellcheck="false" required aria-required="true" placeholder="my-flower-farm" aria-describedby="shopDomain-hint shopDomain-error">
+          <span class="suffix" aria-hidden="true">.myshopify.com</span>
+        </div>
+        <p id="shopDomain-error" class="field-error" hidden></p>
+      </div>
+
+      <div class="field">
+        <label for="email">Email for Shopify app support (where to send notifications, issues, alerts): <span class="req" aria-hidden="true">*</span></label>
+        <input id="email" name="email" type="email" autocomplete="email" required aria-required="true" aria-describedby="email-error">
+        <p id="email-error" class="field-error" hidden></p>
+      </div>
+
+      <div class="field">
+        <label for="newsletterEmail">Email for Newsletter: <span class="req" aria-hidden="true">*</span></label>
+        <input id="newsletterEmail" name="newsletterEmail" type="email" autocomplete="email" required aria-required="true" aria-describedby="newsletterEmail-error">
+        <p id="newsletterEmail-error" class="field-error" hidden></p>
+      </div>
+
+      <div class="field">
+        <div class="check">
+          <input id="consent" name="consent" type="checkbox" required aria-describedby="consent-error">
+          <label for="consent">I agree to subscribe to the Sugar Moon Gardens newsletter if my application is approved, and I understand that free access to Launch Day depends on staying subscribed.</label>
+        </div>
+        <p id="consent-error" class="field-error" hidden></p>
+      </div>
+
+      <!-- Honeypot: hidden from people and assistive tech; bots fill it in. -->
+      <div class="hp" aria-hidden="true">
+        <label for="honeypot">Leave this field empty</label>
+        <input id="honeypot" name="honeypot" type="text" tabindex="-1" autocomplete="off">
+      </div>
+
+      <button id="submit" type="submit" class="btn-primary">Submit application</button>
+    </form>
+  </main>
+
+  <script>
+    (function () {
+      var form = document.getElementById('form');
+      var submit = document.getElementById('submit');
+      var formError = document.getElementById('form-error');
+      var success = document.getElementById('success');
+      var names = ['shopDomain', 'email', 'newsletterEmail', 'consent'];
+      var GENERIC = 'Something went wrong, please try again later or email support@madvalley.com.';
+
+      function clearErrors() {
+        formError.hidden = true; formError.textContent = '';
+        names.forEach(function (n) {
+          var e = document.getElementById(n + '-error');
+          e.hidden = true; e.textContent = '';
+          document.getElementById(n).removeAttribute('aria-invalid');
+        });
+      }
+      function showError(msg, field) {
+        if (field && names.indexOf(field) !== -1) {
+          var e = document.getElementById(field + '-error');
+          e.textContent = msg; e.hidden = false;
+          var input = document.getElementById(field);
+          input.setAttribute('aria-invalid', 'true');
+          input.focus();
+        } else {
+          formError.textContent = msg; formError.hidden = false;
+          formError.scrollIntoView({ block: 'nearest' });
+        }
+      }
+
+      // Accept a bare handle (what the copy asks for) or a full address/URL.
+      function normalizeShop(v) {
+        v = v.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/+$/, '');
+        var m = v.match(/admin\.shopify\.com\/store\/([a-z0-9][a-z0-9-]*)/);
+        if (m) v = m[1];
+        return v.indexOf('.') === -1 ? v + '.myshopify.com' : v;
+      }
+
+      form.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        clearErrors();
+        var shop = normalizeShop(form.shopDomain.value);
+        var emailV = form.email.value.trim();
+        var newsV = form.newsletterEmail.value.trim();
+        var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // Light checks for UX only; Launch Day validates everything again.
+        if (!/^[a-z0-9][a-z0-9-]*\.myshopify\.com$/i.test(shop)) {
+          return showError('Enter your store handle, for example my-flower-farm.', 'shopDomain');
+        }
+        if (!emailRe.test(emailV)) {
+          return showError('Enter a valid email address.', 'email');
+        }
+        if (!emailRe.test(newsV)) {
+          return showError('Please enter a valid email address for the newsletter.', 'newsletterEmail');
+        }
+        if (!form.consent.checked) {
+          return showError('Please tick the box to agree before submitting.', 'consent');
+        }
+
+        submit.disabled = true; submit.textContent = 'Submitting…';
+        fetch('/api/partner-application', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            shopDomain: shop,
+            email: emailV,
+            newsletterEmail: newsV,
+            consent: true,
+            honeypot: form.honeypot.value
+          })
+        }).then(function (res) {
+          return res.json().catch(function () { return null; }).then(function (data) {
+            if (res.ok && data && data.ok) {
+              form.hidden = true; success.hidden = false; success.focus();
+            } else {
+              showError((data && data.error) || GENERIC, data && data.field);
+            }
+          });
+        }).catch(function () {
+          showError('We couldn’t reach the server. Check your connection and try again.');
+        }).then(function () {
+          submit.disabled = false; submit.textContent = 'Submit application';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

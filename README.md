@@ -58,7 +58,7 @@ Fields (all required except `honeypot`, which must stay empty):
 | --- | --- |
 | `shopDomain` | Store handle (`my-flower-farm`) or full `.myshopify.com` address. The page appends `.myshopify.com` to a bare handle; Launch Day normalizes again. |
 | `email` | Support email (notifications, issues, alerts). |
-| `newsletterEmail` | Newsletter email. The page offers a "Same as my support email" checkbox (JS only) that mirrors `email` and makes the field read-only while ticked. Without JS the user types it. |
+| `newsletterEmail` | Newsletter email. Applicants type it themselves (no "same as" shortcut, by design). |
 | `consent` | Newsletter consent checkbox. |
 | `honeypot` | Bot trap, hidden from people. |
 

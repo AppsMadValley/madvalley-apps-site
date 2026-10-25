@@ -36,8 +36,6 @@
     .req { color: var(--color-error); }
     .suffix-wrap { display: flex; align-items: center; gap: 8px; }
     .suffix { font-size: 16px; color: var(--color-text-muted); white-space: nowrap; }
-    .same { margin-top: 8px; }
-    .same label { font-size: 15px; }
     .hint code { font-size: 14px; background: #f1f5f9; padding: 1px 4px; border-radius: 4px; overflow-wrap: anywhere; }
     input[type="text"], input[type="email"] { width: 100%; font: inherit; font-size: 16px; padding: 10px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-white); color: var(--color-text-dark); }
     input:focus-visible { outline: 2px solid var(--color-cobalt); outline-offset: 1px; }
@@ -94,10 +92,6 @@
       <div class="field">
         <label for="newsletterEmail">Email for Newsletter: <span class="req" aria-hidden="true">*</span></label>
         <input id="newsletterEmail" name="newsletterEmail" type="email" autocomplete="email" required aria-required="true" aria-describedby="newsletterEmail-error">
-        <div class="check same" id="same-wrap" hidden>
-          <input id="same" type="checkbox">
-          <label for="same">Same as my support email</label>
-        </div>
         <p id="newsletterEmail-error" class="field-error" hidden></p>
       </div>
 
@@ -149,19 +143,6 @@
         }
       }
 
-      // "Same as my support email": the checkbox is JS-only (hidden without JS,
-      // where people just type the second address).
-      var email = form.email, news = form.newsletterEmail;
-      var same = document.getElementById('same');
-      var sameWrap = document.getElementById('same-wrap');
-      sameWrap.hidden = false;
-      function syncNews() { if (same.checked) news.value = email.value; }
-      same.addEventListener('change', function () {
-        news.readOnly = same.checked;
-        syncNews();
-      });
-      email.addEventListener('input', syncNews);
-
       // Accept a bare handle (what the copy asks for) or a full address/URL.
       function normalizeShop(v) {
         v = v.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/+$/, '');
@@ -173,7 +154,6 @@
       form.addEventListener('submit', function (ev) {
         ev.preventDefault();
         clearErrors();
-        syncNews();
         var shop = normalizeShop(form.shopDomain.value);
         var emailV = form.email.value.trim();
         var newsV = form.newsletterEmail.value.trim();

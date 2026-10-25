@@ -34,3 +34,16 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Environment variables
+
+Set in Vercel (Production and Preview). Used by `api/partner-application.ts`, the server-side function behind the unlisted Launch Day partner application page (`/partners/launch-day/apply/`):
+
+| Name | Value | Sensitive |
+| --- | --- | --- |
+| `LAUNCH_DAY_API_URL` | `https://launchday-chi.vercel.app` (Launch Day base URL) | no |
+| `PARTNER_APPLICATION_SECRET` | Shared secret. Must match the same variable in the Launch Day Vercel project; rotating it means changing both projects. | yes |
+
+If either is unset the endpoint returns a friendly 503 and never forwards. `RESEND_API_KEY` is used only by the legacy `app/api/contact` route.
+
+Note: `vercel.json` makes this site deploy as static files (root `index.html`), so the Next.js `app/` directory, including `app/api/contact`, is not served in production. Serverless endpoints must live in the root `api/` directory. The partner page is unlisted by design: do not link it from nav, footer, or home, and do not add it to a sitemap.

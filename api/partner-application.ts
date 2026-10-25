@@ -7,7 +7,10 @@ const TIMEOUT_MS = 10_000;
 const MAX_BODY_BYTES = 10_000;
 const SUPPORT = "support@madvalley.com";
 const GENERIC_ERROR = `Something went wrong, please try again later or email ${SUPPORT}.`;
-const FIELDS = ["shopDomain", "email", "consent"] as const;
+const MAX_EMAIL_LEN = 254;
+const MAX_SHOP_LEN = 255;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const FIELDS = ["shopDomain", "email", "newsletterEmail", "consent"] as const;
 
 type Field = (typeof FIELDS)[number];
 type Result = { status: number; ok: boolean; error?: string; field?: Field };
@@ -19,6 +22,7 @@ function isField(v: unknown): v is Field {
 async function submit(input: {
   shopDomain: string;
   email: string;
+  newsletterEmail: string;
   consent: boolean;
   honeypot: string;
 }): Promise<Result> {
@@ -31,7 +35,7 @@ async function submit(input: {
 
   let res: Response;
   try {
-    // Only the four form fields are forwarded: no IP, cookies, or Origin.
+    // Only the five form fields are forwarded: no IP, cookies, or Origin.
     res = await fetch(`${baseUrl.replace(/\/+$/, "")}/api/partner-application`, {
       method: "POST",
       headers: {
@@ -119,10 +123,32 @@ export async function POST(request: Request): Promise<Response> {
   const str = (v: unknown) => (typeof v === "string" ? v : "");
   const consent = data.consent === true || data.consent === "true" || data.consent === "on";
 
+  const shopDomain = str(data.shopDomain).trim();
+  const email = str(data.email).trim();
+  const newsletterEmail = str(data.newsletterEmail).trim();
+
+  // Light shape/length checks so junk never gets forwarded; Launch Day
+  // validates everything again authoritatively.
+  if (shopDomain.length > MAX_SHOP_LEN) {
+    return respond({ status: 400, ok: false, error: "Please enter a valid Shopify store handle.", field: "shopDomain" });
+  }
+  if (!EMAIL_RE.test(email) || email.length > MAX_EMAIL_LEN) {
+    return respond({ status: 400, ok: false, error: "Please enter a valid email address.", field: "email" });
+  }
+  if (!EMAIL_RE.test(newsletterEmail) || newsletterEmail.length > MAX_EMAIL_LEN) {
+    return respond({
+      status: 400,
+      ok: false,
+      error: "Please enter a valid email address for the newsletter.",
+      field: "newsletterEmail",
+    });
+  }
+
   return respond(
     await submit({
-      shopDomain: str(data.shopDomain).trim(),
-      email: str(data.email).trim(),
+      shopDomain,
+      email,
+      newsletterEmail,
       consent,
       honeypot: str(data.honeypot),
     }),

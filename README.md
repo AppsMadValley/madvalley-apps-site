@@ -47,3 +47,19 @@ Set in Vercel (Production and Preview). Used by `api/partner-application.ts`, th
 If either is unset the endpoint returns a friendly 503 and never forwards. `RESEND_API_KEY` is used only by the legacy `app/api/contact` route.
 
 Note: `vercel.json` makes this site deploy as static files (root `index.html`), so the Next.js `app/` directory, including `app/api/contact`, is not served in production. Serverless endpoints must live in the root `api/` directory. The partner page is unlisted by design: do not link it from nav, footer, or home, and do not add it to a sitemap.
+
+## Partner application form contract
+
+Page: `partners/launch-day/apply/index.html` (static). It POSTs JSON (or a native urlencoded form post without JS) to `api/partner-application.ts`, which forwards server-to-server to `${LAUNCH_DAY_API_URL}/api/partner-application` with the `x-partner-application-secret` header.
+
+Fields (all required except `honeypot`, which must stay empty):
+
+| Field | Notes |
+| --- | --- |
+| `shopDomain` | Store handle (`my-flower-farm`) or full `.myshopify.com` address. The page appends `.myshopify.com` to a bare handle; Launch Day normalizes again. |
+| `email` | Support email (notifications, issues, alerts). |
+| `newsletterEmail` | Newsletter email. The page offers a "Same as my support email" checkbox (JS only) that mirrors `email` and makes the field read-only while ticked. Without JS the user types it. |
+| `consent` | Newsletter consent checkbox. |
+| `honeypot` | Bot trap, hidden from people. |
+
+The function validates `shopDomain` length and the shape/length of `email` and `newsletterEmail` (400 with `field`) before forwarding `{shopDomain, email, newsletterEmail, consent, honeypot}`. Launch Day may return 400/409/429 with `{error, field?}`; `field` is passed through when it is one of `shopDomain`, `email`, `newsletterEmail`, `consent`, and the page shows the error beside that field. A real end-to-end submit needs the Launch Day change that accepts `newsletterEmail` deployed first.

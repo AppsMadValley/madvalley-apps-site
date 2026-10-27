@@ -431,6 +431,8 @@
       color: var(--color-cobalt);
     }
     .support-link:hover { text-decoration: underline; }
+    .support-link-block { display: block; width: fit-content; }
+    .support-link-block + .support-link-block { margin-top: 8px; }
 
     /* Footer */
     footer {
@@ -664,8 +666,8 @@
           <div class="support-icon"><i class="ti ti-books"></i></div>
           <h3 class="support-card-title">Documentation</h3>
           <p class="support-card-body">Setup guides, FAQ, and step-by-step walkthroughs. Start here first.</p>
-          <a href="https://popup.apps.madvalley.com/docs/introduction" target="_blank" class="support-link">PopUp Docs &#8594;</a>
-          <a href="https://launchday.apps.madvalley.com/docs/introduction" target="_blank" class="support-link" style="margin-left: 12px;">Launch Day Docs &#8594;</a>
+          <a href="https://popup.apps.madvalley.com/docs/introduction" target="_blank" class="support-link support-link-block">PopUp Docs &#8594;</a>
+          <a href="https://launchday.apps.madvalley.com/docs/introduction" target="_blank" class="support-link support-link-block">Launch Day Docs &#8594;</a>
         </div>
         <div class="support-card fade-in">
           <div class="support-icon"><i class="ti ti-mail"></i></div>

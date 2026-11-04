@@ -10,7 +10,8 @@ const GENERIC_ERROR = `Something went wrong, please try again later or email ${S
 const MAX_EMAIL_LEN = 254;
 const MAX_SHOP_LEN = 255;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const FIELDS = ["shopDomain", "email", "newsletterEmail", "consent"] as const;
+const MAX_NAME_LEN = 80;
+const FIELDS = ["firstName", "lastName", "shopDomain", "email", "newsletterEmail", "consent"] as const;
 
 type Field = (typeof FIELDS)[number];
 type Result = { status: number; ok: boolean; error?: string; field?: Field };
@@ -20,6 +21,8 @@ function isField(v: unknown): v is Field {
 }
 
 async function submit(input: {
+  firstName: string;
+  lastName: string;
   shopDomain: string;
   email: string;
   newsletterEmail: string;
@@ -35,7 +38,7 @@ async function submit(input: {
 
   let res: Response;
   try {
-    // Only the five form fields are forwarded: no IP, cookies, or Origin.
+    // Only the form fields are forwarded: no IP, cookies, or Origin.
     res = await fetch(`${baseUrl.replace(/\/+$/, "")}/api/partner-application`, {
       method: "POST",
       headers: {
@@ -123,12 +126,22 @@ export async function POST(request: Request): Promise<Response> {
   const str = (v: unknown) => (typeof v === "string" ? v : "");
   const consent = data.consent === true || data.consent === "true" || data.consent === "on";
 
+  // Names: collapse whitespace; Launch Day validates them again authoritatively.
+  const cleanName = (v: unknown) => str(v).replace(/\s+/g, " ").trim();
+  const firstName = cleanName(data.firstName);
+  const lastName = cleanName(data.lastName);
   const shopDomain = str(data.shopDomain).trim();
   const email = str(data.email).trim();
   const newsletterEmail = str(data.newsletterEmail).trim();
 
   // Light shape/length checks so junk never gets forwarded; Launch Day
   // validates everything again authoritatively.
+  if (!firstName || firstName.length > MAX_NAME_LEN || !/\p{L}/u.test(firstName)) {
+    return respond({ status: 400, ok: false, error: "Please enter your first name.", field: "firstName" });
+  }
+  if (!lastName || lastName.length > MAX_NAME_LEN || !/\p{L}/u.test(lastName)) {
+    return respond({ status: 400, ok: false, error: "Please enter your last name.", field: "lastName" });
+  }
   if (shopDomain.length > MAX_SHOP_LEN) {
     return respond({ status: 400, ok: false, error: "Please enter a valid Shopify store handle.", field: "shopDomain" });
   }
@@ -146,6 +159,8 @@ export async function POST(request: Request): Promise<Response> {
 
   return respond(
     await submit({
+      firstName,
+      lastName,
       shopDomain,
       email,
       newsletterEmail,

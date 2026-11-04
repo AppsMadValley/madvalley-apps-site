@@ -85,6 +85,19 @@
       <div id="form-error" class="form-error" role="alert" hidden></div>
 
       <div class="field">
+        <label for="firstName">First name <span class="req" aria-hidden="true">*</span></label>
+        <input id="firstName" name="firstName" type="text" autocomplete="given-name" required aria-required="true" maxlength="80" aria-describedby="firstName-error">
+        <p id="firstName-error" class="field-error" hidden></p>
+      </div>
+
+      <div class="field">
+        <label for="lastName">Last name <span class="req" aria-hidden="true">*</span></label>
+        <input id="lastName" name="lastName" type="text" autocomplete="family-name" required aria-required="true" maxlength="80" aria-describedby="lastName-error">
+        <p class="hint">We use your name to set up your Sugar Moon Gardens newsletter subscription.</p>
+        <p id="lastName-error" class="field-error" hidden></p>
+      </div>
+
+      <div class="field">
         <label for="shopDomain">Shopify store handle <span class="req" aria-hidden="true">*</span></label>
         <p class="hint" id="shopDomain-hint">
           To find it, open your Shopify admin and look at the URL. Example: <code>admin.shopify.com/store/<strong>my-flower-farm</strong></code>. The last part is the handle. "my-flower-farm", enter that below:
@@ -132,7 +145,7 @@
       var submit = document.getElementById('submit');
       var formError = document.getElementById('form-error');
       var success = document.getElementById('success');
-      var names = ['shopDomain', 'email', 'newsletterEmail', 'consent'];
+      var names = ['firstName', 'lastName', 'shopDomain', 'email', 'newsletterEmail', 'consent'];
       var GENERIC = 'Something went wrong, please try again later or email support@madvalley.com.';
 
       function clearErrors() {
@@ -167,11 +180,19 @@
       form.addEventListener('submit', function (ev) {
         ev.preventDefault();
         clearErrors();
+        var firstV = form.firstName.value.trim().replace(/\s+/g, ' ');
+        var lastV = form.lastName.value.trim().replace(/\s+/g, ' ');
         var shop = normalizeShop(form.shopDomain.value);
         var emailV = form.email.value.trim();
         var newsV = form.newsletterEmail.value.trim();
         var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         // Light checks for UX only; Launch Day validates everything again.
+        if (!firstV || firstV.length > 80 || !/\p{L}/u.test(firstV)) {
+          return showError('Please enter your first name.', 'firstName');
+        }
+        if (!lastV || lastV.length > 80 || !/\p{L}/u.test(lastV)) {
+          return showError('Please enter your last name.', 'lastName');
+        }
         if (!/^[a-z0-9][a-z0-9-]*\.myshopify\.com$/i.test(shop)) {
           return showError('Enter your store handle, for example my-flower-farm.', 'shopDomain');
         }
@@ -190,6 +211,8 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
+            firstName: firstV,
+            lastName: lastV,
             shopDomain: shop,
             email: emailV,
             newsletterEmail: newsV,

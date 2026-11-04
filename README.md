@@ -58,8 +58,9 @@ Fields (all required except `honeypot`, which must stay empty):
 | --- | --- |
 | `shopDomain` | Store handle (`my-flower-farm`) or full `.myshopify.com` address. The page appends `.myshopify.com` to a bare handle; Launch Day normalizes again. |
 | `email` | Support email (notifications, issues, alerts). |
+| `firstName`, `lastName` | Applicant's name (required on the form, 1-80 chars, must contain a letter). Launch Day stores them with the application so Kellie can create the Sugar Moon Gardens customer for the newsletter. |
 | `newsletterEmail` | Newsletter email. Applicants type it themselves (no "same as" shortcut, by design). |
 | `consent` | Newsletter consent checkbox. |
 | `honeypot` | Bot trap, hidden from people. |
 
-The function validates `shopDomain` length and the shape/length of `email` and `newsletterEmail` (400 with `field`) before forwarding `{shopDomain, email, newsletterEmail, consent, honeypot}`. Launch Day may return 400/409/429 with `{error, field?}`; `field` is passed through when it is one of `shopDomain`, `email`, `newsletterEmail`, `consent`, and the page shows the error beside that field. A real end-to-end submit needs the Launch Day change that accepts `newsletterEmail` deployed first.
+The function validates `shopDomain` length and the shape/length of `email` and `newsletterEmail`, and requires `firstName` and `lastName` (400 with `field`) before forwarding `{firstName, lastName, shopDomain, email, newsletterEmail, consent, honeypot}`. Launch Day may return 400/409/429 with `{error, field?}`; `field` is passed through when it is one of `firstName`, `lastName`, `shopDomain`, `email`, `newsletterEmail`, `consent`, and the page shows the error beside that field. A real end-to-end submit needs the Launch Day change that accepts `newsletterEmail` deployed first.

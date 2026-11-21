@@ -1,0 +1,34 @@
+# Daily page visits check: reads the last 24 hours of Vercel Web Analytics for the partner apply page
+# (/partners/launch-day/apply) and updates the "Page visits (last 24 hours)" issue for the morning
+# briefing. A red run means the numbers could not be read.
+# Needs the VERCEL_TOKEN repository secret: a Vercel access token for the team
+# (vercel.com/account/settings/tokens). See scripts/page-visits.mjs.
+name: Page visits
+
+on:
+  schedule:
+    - cron: "35 14 * * *" # 6:35am Pacific standard time (7:35 in summer), before the morning briefing
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: page-visits
+  cancel-in-progress: false
+
+jobs:
+  visits:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Check page visits
+        run: node scripts/page-visits.mjs
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
